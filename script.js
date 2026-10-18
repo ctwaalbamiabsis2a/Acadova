@@ -3,84 +3,42 @@
   "use strict";
 
   // ==========================================
-  // 1. DOM HELPERS AND STORAGE KEYS
+  // 1. DOM HELPERS AND STORAGE
   // ==========================================
 
   const $ = (selector) => document.querySelector(selector);
   const $$ = (selector) => [...document.querySelectorAll(selector)];
 
-  const STORAGE_KEY = "studyflow_data_v1";
-  const SESSION_KEY = "studyflow_session_v1";
-
+  const STORAGE_KEY = "Acadova_data_v1";
+  const SESSION_KEY = "Acadova_session_v1";
 
   // ==========================================
   // 2. DATE HELPERS
   // ==========================================
 
-  const today = new Date();
-
-  const localDate = (date) => {
+  const localDate = (date = new Date()) => {
     const d = new Date(date);
 
     return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
   };
 
-  const addDays = (n) => {
+  const addDays = (days) => {
     const d = new Date();
-
-    d.setDate(d.getDate() + n);
-
+    d.setDate(d.getDate() + days);
     return localDate(d);
   };
 
-
   // ==========================================
-  // 3. STARTER DATA
+  // 3. EMPTY STARTER DATA
   // ==========================================
 
-  const starterData = () => ({
-    users: [
-      {
-        name: "User UwU",
-        email: "uwu@studyflow.com",
-        password: "studyflow123"
-      }
-    ],
-
-    tasks: [
-      {
-        id: "sample-1",
-        title: "Finish research introduction",
-        subject: "Research",
-        dueDate: addDays(1),
-        priority: "High",
-        description: "Complete the first draft and review the objectives.",
-        completed: false,
-        createdAt: Date.now() - 3000
-      },
-      {
-        id: "sample-2",
-        title: "Review HTML and CSS notes",
-        subject: "ICT",
-        dueDate: addDays(2),
-        priority: "Medium",
-        description: "Go over semantic tags, selectors, and responsive design.",
-        completed: false,
-        createdAt: Date.now() - 2000
-      },
-      {
-        id: "sample-3",
-        title: "Read English lesson",
-        subject: "English",
-        dueDate: addDays(3),
-        priority: "Low",
-        description: "Read the assigned selection and take notes.",
-        completed: true,
-        createdAt: Date.now() - 1000
-      }
-    ]
-  });
-
+  // No sample account and no sample tasks.
+  function starterData() {
+    return {
+      users: [],
+      tasks: []
+    };
+  }
 
   // ==========================================
   // 4. LOAD AND SAVE DATA
@@ -95,17 +53,33 @@
         Array.isArray(saved.users) &&
         Array.isArray(saved.tasks)
       ) {
+        saved.users = saved.users.filter((user) =>
+          user &&
+          typeof user.name === "string" &&
+          typeof user.email === "string" &&
+          typeof user.password === "string"
+        );
+
+        saved.tasks = saved.tasks.filter((task) =>
+          task &&
+          typeof task.id === "string" &&
+          typeof task.title === "string"
+        );
+
         return saved;
       }
     } catch (error) {
-      console.warn("Could not read saved StudyFlow data.", error);
+      console.warn("Could not read saved Acadova data.", error);
     }
 
-    const data = starterData();
+    const freshData = starterData();
 
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    localStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify(freshData)
+    );
 
-    return data;
+    return freshData;
   }
 
   let data = readData();
@@ -116,14 +90,20 @@
   let toastTimer = null;
 
   function saveData() {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    localStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify(data)
+    );
   }
 
+  // Each account sees only its own tasks.
   function userTasks() {
-    // This classroom prototype stores all demo tasks in one browser.
-    return data.tasks;
-  }
+    if (!currentUser) return [];
 
+    return data.tasks.filter((task) =>
+      task.userEmail === currentUser.email.toLowerCase()
+    );
+  }
 
   // ==========================================
   // 5. GENERAL UTILITIES
@@ -142,9 +122,13 @@
   function prettyDate(dateString) {
     if (!dateString) return "No due date";
 
-    const d = new Date(`${dateString}T00:00:00`);
+    const date = new Date(`${dateString}T00:00:00`);
 
-    return d.toLocaleDateString(undefined, {
+    if (Number.isNaN(date.getTime())) {
+      return "No due date";
+    }
+
+    return date.toLocaleDateString(undefined, {
       month: "short",
       day: "numeric"
     });
@@ -153,10 +137,16 @@
   function relativeDue(dateString) {
     if (!dateString) return "No due date";
 
+    const dueDate = new Date(`${dateString}T00:00:00`);
+
+    if (Number.isNaN(dueDate.getTime())) {
+      return "No due date";
+    }
+
     const diff = Math.round(
       (
-        new Date(`${dateString}T00:00:00`) -
-        new Date(`${localDate(today)}T00:00:00`)
+        dueDate -
+        new Date(`${localDate()}T00:00:00`)
       ) / 86400000
     );
 
@@ -178,6 +168,8 @@
   function showToast(message) {
     const toast = $("#toast");
 
+    if (!toast) return;
+
     toast.textContent = message;
     toast.classList.add("show");
 
@@ -188,6 +180,13 @@
     }, 2600);
   }
 
+  function setError(selector, message = "") {
+    const element = $(selector);
+
+    if (element) {
+      element.textContent = message;
+    }
+  }
 
   // ==========================================
   // 6. SCREEN NAVIGATION AND SESSION
@@ -201,17 +200,21 @@
     activeScreen = screenId;
 
     $$(".screen").forEach((screen) => {
-      screen.classList.toggle("active", screen.id === screenId);
+      screen.classList.toggle(
+        "active",
+        screen.id === screenId
+      );
     });
 
-    const loggedIn = Boolean(currentUser);
+    $("#bottomNav").classList.toggle(
+      "hidden",
+      !currentUser
+    );
 
-    $("#bottomNav").classList.toggle("hidden", !loggedIn);
-
-    $$(".nav-item").forEach((btn) => {
-      btn.classList.toggle(
+    $$(".nav-item").forEach((button) => {
+      button.classList.toggle(
         "active",
-        btn.dataset.screen === screenId
+        button.dataset.screen === screenId
       );
     });
 
@@ -220,60 +223,65 @@
       behavior: "smooth"
     });
 
-    if (loggedIn) {
-      if (screenId === "dashboardScreen") {
-        renderDashboard();
-      }
+    if (!currentUser) return;
 
-      if (screenId === "tasksScreen") {
-        renderTasks();
-      }
+    if (screenId === "dashboardScreen") {
+      renderDashboard();
+    }
 
-      if (screenId === "profileScreen") {
-        renderProfile();
-      }
+    if (screenId === "tasksScreen") {
+      renderTasks();
+    }
+
+    if (screenId === "profileScreen") {
+      renderProfile();
     }
   }
 
   function setSession(user) {
-    currentUser = user;
+    currentUser = user || null;
 
-    if (user) {
-      localStorage.setItem(SESSION_KEY, user.email);
+    if (currentUser) {
+      localStorage.setItem(
+        SESSION_KEY,
+        currentUser.email.toLowerCase()
+      );
     } else {
       localStorage.removeItem(SESSION_KEY);
     }
 
-    $("#headerAvatar").textContent = user
-      ? user.name.trim().charAt(0).toUpperCase()
+    $("#headerAvatar").textContent = currentUser
+      ? currentUser.name.trim().charAt(0).toUpperCase()
       : "S";
   }
 
   function enterApp(user) {
     setSession(user);
 
-    $("#loginError").textContent = "";
+    setError("#loginError");
+    setError("#registerError");
 
-    renderDashboard();
     showScreen("dashboardScreen");
 
     showToast(
-      `Welcome${user.name ? ", " + user.name.split(" ")[0] : ""}!`
+      `Welcome, ${user.name.split(" ")[0]}!`
     );
   }
 
-
   // ==========================================
-  // 7. TASK CARD AND EMPTY STATE
+  // 7. TASK CARDS AND EMPTY STATES
   // ==========================================
 
   function taskCard(task) {
-    const priorityClass = task.priority.toLowerCase();
-    const completedClass = task.completed ? "is-complete" : "";
+    const priority = String(
+      task.priority || "Medium"
+    ).toLowerCase();
 
     return `
-      <article class="task-card ${completedClass}">
+      <article class="task-card ${task.completed ? "is-complete" : ""}">
+
         <button
+          type="button"
           class="task-check ${task.completed ? "checked" : ""}"
           data-action="toggle"
           data-id="${escapeHTML(task.id)}"
@@ -281,22 +289,25 @@
         >${task.completed ? "✓" : ""}</button>
 
         <div class="task-main">
+
           <p class="task-title">
             ${escapeHTML(task.title)}
           </p>
 
           <div class="task-meta">
+
             <span class="pill">
-              ${escapeHTML(task.subject)}
+              ${escapeHTML(task.subject || "Other")}
             </span>
 
-            <span class="pill ${priorityClass}">
-              ${escapeHTML(task.priority)}
+            <span class="pill ${priority}">
+              ${escapeHTML(task.priority || "Medium")}
             </span>
 
             <span class="due-text">
               ${escapeHTML(relativeDue(task.dueDate))}
             </span>
+
           </div>
 
           ${
@@ -304,10 +315,13 @@
               ? `<p class="muted task-description">${escapeHTML(task.description)}</p>`
               : ""
           }
+
         </div>
 
         <div class="task-actions">
+
           <button
+            type="button"
             class="mini-action"
             data-action="edit"
             data-id="${escapeHTML(task.id)}"
@@ -316,12 +330,14 @@
           >✎</button>
 
           <button
+            type="button"
             class="mini-action delete"
             data-action="delete"
             data-id="${escapeHTML(task.id)}"
             aria-label="Delete ${escapeHTML(task.title)}"
             title="Delete"
           >×</button>
+
         </div>
       </article>
     `;
@@ -330,7 +346,8 @@
   function emptyState(title, message, showAdd = false) {
     return `
       <div class="empty-state">
-        <div class="empty-icon">✦</div>
+
+        <div class="empty-icon" aria-hidden="true">✦</div>
 
         <h3>${escapeHTML(title)}</h3>
 
@@ -338,13 +355,13 @@
 
         ${
           showAdd
-            ? '<button class="button primary" data-action="new">＋ Add a task</button>'
+            ? '<button type="button" class="button primary" data-action="new">＋ Add a task</button>'
             : ""
         }
+
       </div>
     `;
   }
-
 
   // ==========================================
   // 8. DASHBOARD
@@ -355,11 +372,18 @@
 
     const tasks = userTasks();
 
-    const pending = tasks.filter((t) => !t.completed);
-    const completed = tasks.filter((t) => t.completed);
+    const pending = tasks.filter(
+      (task) => !task.completed
+    );
 
-    const pct = tasks.length
-      ? Math.round((completed.length / tasks.length) * 100)
+    const completed = tasks.filter(
+      (task) => task.completed
+    );
+
+    const percent = tasks.length
+      ? Math.round(
+          completed.length / tasks.length * 100
+        )
       : 0;
 
     $("#todayLabel").textContent = new Date()
@@ -377,71 +401,97 @@
     $("#pendingCount").textContent = pending.length;
     $("#completedCount").textContent = completed.length;
 
-    $("#progressPercent").textContent = `${pct}%`;
-    $("#progressBar").style.width = `${pct}%`;
+    $("#progressPercent").textContent = `${percent}%`;
+    $("#progressBar").style.width = `${percent}%`;
 
-    $("#welcomeSummary").textContent = pending.length
-      ? `You have ${pending.length} task${pending.length === 1 ? "" : "s"} waiting for you.`
-      : "Everything is caught up. Great work!";
+    if (pending.length) {
+      $("#welcomeSummary").textContent =
+        `You have ${pending.length} task${pending.length === 1 ? "" : "s"} waiting for you.`;
+    } else if (tasks.length) {
+      $("#welcomeSummary").textContent =
+        "Everything is caught up. Great work!";
+    } else {
+      $("#welcomeSummary").textContent =
+        "Your planner is ready. Add your first task to get started.";
+    }
 
     const upcoming = pending
       .slice()
-      .sort((a, b) => a.dueDate.localeCompare(b.dueDate))
+      .sort((a, b) =>
+        (a.dueDate || "").localeCompare(b.dueDate || "")
+      )
       .slice(0, 3);
 
     $("#upcomingList").innerHTML = upcoming.length
       ? upcoming.map(taskCard).join("")
       : emptyState(
-          "All caught up!",
-          "Add a task when you have something new to work on.",
+          "No upcoming tasks",
+          "Your tasks will appear here when you add them.",
           true
         );
   }
 
-
   // ==========================================
-  // 9. TASK SEARCH, FILTERING, AND SORTING
+  // 9. TASK SEARCH, FILTERS, AND SORTING
   // ==========================================
 
   function getFilteredTasks() {
-    const query = $("#searchInput").value.trim().toLowerCase();
+    const query = $("#searchInput")
+      .value.trim().toLowerCase();
+
     const subject = $("#subjectFilter").value;
     const sort = $("#sortSelect").value;
 
-    let tasks = userTasks().filter((task) => {
+    const tasks = userTasks().filter((task) => {
       const matchesStatus =
         activeStatus === "all" ||
-        (activeStatus === "pending" && !task.completed) ||
-        (activeStatus === "completed" && task.completed);
+        (
+          activeStatus === "pending" &&
+          !task.completed
+        ) ||
+        (
+          activeStatus === "completed" &&
+          task.completed
+        );
 
       const matchesSubject =
-        subject === "all" || task.subject === subject;
+        subject === "all" ||
+        task.subject === subject;
+
+      const searchable =
+        `${task.title} ${task.subject || ""} ${task.description || ""}`
+          .toLowerCase();
 
       const matchesQuery =
-        !query ||
-        `${task.title} ${task.subject} ${task.description}`
-          .toLowerCase()
-          .includes(query);
+        !query || searchable.includes(query);
 
-      return matchesStatus && matchesSubject && matchesQuery;
+      return (
+        matchesStatus &&
+        matchesSubject &&
+        matchesQuery
+      );
     });
 
     if (sort === "date") {
-      tasks.sort((a, b) => a.dueDate.localeCompare(b.dueDate));
-    }
-
-    if (sort === "priority") {
+      tasks.sort((a, b) =>
+        (a.dueDate || "").localeCompare(b.dueDate || "")
+      );
+    } else if (sort === "priority") {
       const rank = {
         High: 0,
         Medium: 1,
         Low: 2
       };
 
-      tasks.sort((a, b) => rank[a.priority] - rank[b.priority]);
-    }
-
-    if (sort === "newest") {
-      tasks.sort((a, b) => b.createdAt - a.createdAt);
+      tasks.sort((a, b) =>
+        (rank[a.priority] ?? 1) -
+        (rank[b.priority] ?? 1)
+      );
+    } else if (sort === "newest") {
+      tasks.sort((a, b) =>
+        (b.createdAt || 0) -
+        (a.createdAt || 0)
+      );
     }
 
     return tasks;
@@ -456,15 +506,14 @@
     $("#allTasksList").innerHTML = tasks.length
       ? tasks.map(taskCard).join("")
       : emptyState(
-          "No tasks found",
-          "Try changing your search or filters, or add a new task.",
+          "No tasks yet",
+          "Add your own school tasks, and they will appear here.",
           true
         );
 
     $("#clearSearch").style.display =
       $("#searchInput").value ? "block" : "none";
   }
-
 
   // ==========================================
   // 10. PROFILE DISPLAY
@@ -473,31 +522,38 @@
   function renderProfile() {
     if (!currentUser) return;
 
+    const initial = currentUser.name
+      .trim()
+      .charAt(0)
+      .toUpperCase();
+
     $("#profileName").textContent = currentUser.name;
     $("#profileEmail").textContent = currentUser.email;
-
-    $("#profileAvatar").textContent =
-      currentUser.name.trim().charAt(0).toUpperCase();
+    $("#profileAvatar").textContent = initial;
 
     $("#profileNameInput").value = currentUser.name;
     $("#profileEmailInput").value = currentUser.email;
 
-    $("#headerAvatar").textContent =
-      currentUser.name.trim().charAt(0).toUpperCase();
+    $("#headerAvatar").textContent = initial;
   }
-
 
   // ==========================================
   // 11. ADDING AND EDITING TASKS
   // ==========================================
 
   function openNewTask() {
+    if (!currentUser) {
+      showScreen("loginScreen");
+      return;
+    }
+
     $("#taskForm").reset();
 
     $("#taskId").value = "";
     $("#taskFormTitle").textContent = "Add a task";
 
-    $("#saveTaskBtn").innerHTML = 'Save task <span>→</span>';
+    $("#saveTaskBtn").innerHTML =
+      'Save task <span>→</span>';
 
     $("#taskDue").value = addDays(1);
     $("#taskPriority").value = "Medium";
@@ -506,15 +562,17 @@
   }
 
   function openEditTask(id) {
-    const task = userTasks().find((item) => item.id === id);
+    const task = userTasks().find(
+      (item) => item.id === id
+    );
 
     if (!task) return;
 
     $("#taskId").value = task.id;
     $("#taskTitle").value = task.title;
-    $("#taskSubject").value = task.subject;
-    $("#taskDue").value = task.dueDate;
-    $("#taskPriority").value = task.priority;
+    $("#taskSubject").value = task.subject || "";
+    $("#taskDue").value = task.dueDate || "";
+    $("#taskPriority").value = task.priority || "Medium";
     $("#taskDescription").value = task.description || "";
 
     $("#taskFormTitle").textContent = "Edit task";
@@ -525,18 +583,19 @@
     showScreen("taskFormScreen");
   }
 
-
   // ==========================================
   // 12. TASK ACTIONS
   // ==========================================
 
   function handleTaskAction(action, id) {
-    const task = userTasks().find((item) => item.id === id);
-
     if (action === "new") {
       openNewTask();
       return;
     }
+
+    const task = userTasks().find(
+      (item) => item.id === id
+    );
 
     if (!task) return;
 
@@ -567,50 +626,67 @@
     }
   }
 
-
   // ==========================================
-  // 13. LOGIN AND REGISTRATION
+  // 13. LOGIN
   // ==========================================
 
   $("#loginForm").addEventListener("submit", (event) => {
     event.preventDefault();
 
-    const email = $("#loginEmail").value.trim().toLowerCase();
+    const email = $("#loginEmail")
+      .value.trim().toLowerCase();
+
     const password = $("#loginPassword").value;
 
-    const user = data.users.find(
-      (item) =>
-        item.email.toLowerCase() === email &&
-        item.password === password
+    const user = data.users.find((item) =>
+      item.email.toLowerCase() === email &&
+      item.password === password
     );
 
     if (!user) {
-      $("#loginError").textContent =
-        "We couldn't find that account. Check your details or create an account.";
-
+      setError(
+        "#loginError",
+        "Account not found. Check your details or create an account."
+      );
       return;
     }
 
     enterApp(user);
   });
 
+  // ==========================================
+  // 14. REGISTRATION
+  // ==========================================
+
   $("#registerForm").addEventListener("submit", (event) => {
     event.preventDefault();
 
     const name = $("#registerName").value.trim();
-    const email = $("#registerEmail").value.trim().toLowerCase();
+
+    const email = $("#registerEmail")
+      .value.trim().toLowerCase();
+
     const password = $("#registerPassword").value;
 
-    $("#registerError").textContent = "";
+    setError("#registerError");
+
+    if (name.length < 2) {
+      setError(
+        "#registerError",
+        "Please enter a name with at least 2 characters."
+      );
+      return;
+    }
 
     if (
       data.users.some(
-        (item) => item.email.toLowerCase() === email
+        (user) => user.email.toLowerCase() === email
       )
     ) {
-      $("#registerError").textContent =
-        "An account with this email already exists. Please log in.";
-
+      setError(
+        "#registerError",
+        "An account with this email already exists. Please log in."
+      );
       return;
     }
 
@@ -631,15 +707,14 @@
     showToast("Account created successfully!");
   });
 
-
   // ==========================================
-  // 14. NAVIGATION BUTTONS
+  // 15. NAVIGATION BUTTONS
   // ==========================================
 
   $$("[data-go]").forEach((button) => {
     button.addEventListener("click", () => {
-      $("#loginError").textContent = "";
-      $("#registerError").textContent = "";
+      setError("#loginError");
+      setError("#registerError");
 
       showScreen(button.dataset.go);
     });
@@ -651,11 +726,15 @@
     });
   });
 
-  $$("[data-screen]").forEach((button) => {
-    button.addEventListener("click", () => {
-      showScreen(button.dataset.screen);
+  $$("[data-screen]")
+    .filter((button) =>
+      !button.classList.contains("nav-item")
+    )
+    .forEach((button) => {
+      button.addEventListener("click", () => {
+        showScreen(button.dataset.screen);
+      });
     });
-  });
 
   $("#brandHome").addEventListener("click", (event) => {
     event.preventDefault();
@@ -683,13 +762,14 @@
     showScreen("tasksScreen");
   });
 
-
   // ==========================================
-  // 15. SAVE TASK FORM
+  // 16. SAVE TASK FORM
   // ==========================================
 
   $("#taskForm").addEventListener("submit", (event) => {
     event.preventDefault();
+
+    if (!currentUser) return;
 
     const id = $("#taskId").value;
     const title = $("#taskTitle").value.trim();
@@ -701,27 +781,39 @@
       return;
     }
 
-    if (dueDate < localDate(new Date())) {
-      const proceed = confirm(
+    if (
+      dueDate < localDate() &&
+      !confirm(
         "This due date is in the past. Save this task anyway?"
-      );
-
-      if (!proceed) return;
+      )
+    ) {
+      return;
     }
 
     const existing = id
-      ? userTasks().find((item) => item.id === id)
+      ? userTasks().find((task) => task.id === id)
       : null;
 
     const task = {
-      id: id || `task-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
+      id: id ||
+        `task-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
+
+      userEmail: currentUser.email.toLowerCase(),
       title,
       subject,
       dueDate,
-      priority: $("#taskPriority").value,
+
+      priority: $("#taskPriority").value || "Medium",
+
       description: $("#taskDescription").value.trim(),
-      completed: existing ? existing.completed : false,
-      createdAt: existing ? existing.createdAt : Date.now()
+
+      completed: existing
+        ? existing.completed
+        : false,
+
+      createdAt: existing
+        ? existing.createdAt
+        : Date.now()
     };
 
     if (existing) {
@@ -744,9 +836,8 @@
     );
   });
 
-
   // ==========================================
-  // 16. FILTERS, SEARCH, AND DELETE MODAL
+  // 17. FILTERS AND SEARCH
   // ==========================================
 
   $("#statusFilters").addEventListener("click", (event) => {
@@ -757,7 +848,10 @@
     activeStatus = button.dataset.status;
 
     $$("#statusFilters .filter-chip").forEach((chip) => {
-      chip.classList.toggle("selected", chip === button);
+      chip.classList.toggle(
+        "selected",
+        chip === button
+      );
     });
 
     renderTasks();
@@ -776,34 +870,45 @@
   });
 
   document.addEventListener("click", (event) => {
-    const actionButton = event.target.closest("[data-action]");
+    const button = event.target.closest("[data-action]");
 
-    if (actionButton) {
+    if (button) {
       handleTaskAction(
-        actionButton.dataset.action,
-        actionButton.dataset.id
+        button.dataset.action,
+        button.dataset.id
       );
     }
   });
 
-  $("#keepTaskBtn").addEventListener("click", () => {
-    pendingDeleteId = null;
+  // ==========================================
+  // 18. DELETE TASK MODAL
+  // ==========================================
 
+  function closeDeleteModal() {
+    pendingDeleteId = null;
     $("#deleteModal").classList.add("hidden");
-  });
+  }
+
+  $("#keepTaskBtn").addEventListener(
+    "click",
+    closeDeleteModal
+  );
 
   $("#confirmDeleteBtn").addEventListener("click", () => {
-    if (!pendingDeleteId) return;
+    if (!pendingDeleteId || !currentUser) return;
 
-    data.tasks = data.tasks.filter(
-      (task) => task.id !== pendingDeleteId
+    const email = currentUser.email.toLowerCase();
+
+    data.tasks = data.tasks.filter((task) =>
+      !(
+        task.id === pendingDeleteId &&
+        task.userEmail === email
+      )
     );
 
     saveData();
 
-    pendingDeleteId = null;
-
-    $("#deleteModal").classList.add("hidden");
+    closeDeleteModal();
 
     renderDashboard();
     renderTasks();
@@ -813,38 +918,38 @@
 
   $("#deleteModal").addEventListener("click", (event) => {
     if (event.target.id === "deleteModal") {
-      pendingDeleteId = null;
-
-      $("#deleteModal").classList.add("hidden");
+      closeDeleteModal();
     }
   });
 
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape") {
-      $("#deleteModal").classList.add("hidden");
-
-      pendingDeleteId = null;
+      closeDeleteModal();
     }
   });
 
-
   // ==========================================
-  // 17. PROFILE UPDATES AND LOGOUT
+  // 19. PROFILE UPDATES
   // ==========================================
 
   $("#profileForm").addEventListener("submit", (event) => {
     event.preventDefault();
 
-    const newName = $("#profileNameInput").value.trim();
+    if (!currentUser) return;
+
+    const newName = $("#profileNameInput")
+      .value.trim();
 
     if (newName.length < 2) {
-      showToast("Please enter a name with at least 2 characters.");
+      showToast(
+        "Please enter a name with at least 2 characters."
+      );
       return;
     }
 
-    const user = data.users.find(
-      (item) =>
-        item.email.toLowerCase() === currentUser.email.toLowerCase()
+    const user = data.users.find((item) =>
+      item.email.toLowerCase() ===
+      currentUser.email.toLowerCase()
     );
 
     if (user) {
@@ -861,46 +966,41 @@
     showToast("Profile updated successfully ✓");
   });
 
+  // ==========================================
+  // 20. LOGOUT
+  // ==========================================
+
   $("#logoutBtn").addEventListener("click", () => {
     setSession(null);
 
     $("#loginForm").reset();
-    $("#loginError").textContent = "";
+
+    setError("#loginError");
 
     showScreen("loginScreen");
 
     showToast("You have logged out.");
   });
 
-
   // ==========================================
-  // 18. RESTORE SESSION AFTER REFRESH
+  // 21. RESTORE SESSION AFTER REFRESH
   // ==========================================
 
   const savedEmail = localStorage.getItem(SESSION_KEY);
 
   if (savedEmail) {
-    const savedUser = data.users.find(
-      (item) =>
-        item.email.toLowerCase() === savedEmail.toLowerCase()
+    const savedUser = data.users.find((user) =>
+      user.email.toLowerCase() ===
+      savedEmail.toLowerCase()
     );
 
     if (savedUser) {
-      currentUser = savedUser;
-
-      $("#headerAvatar").textContent =
-        savedUser.name.trim().charAt(0).toUpperCase();
-
-      renderDashboard();
-
+      setSession(savedUser);
       showScreen("dashboardScreen");
-
     } else {
       localStorage.removeItem(SESSION_KEY);
-
       showScreen("loginScreen");
     }
-
   } else {
     showScreen("loginScreen");
   }

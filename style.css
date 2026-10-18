@@ -35,15 +35,22 @@
 
 html {
     scroll-behavior: smooth;
+    overflow-x: hidden;
 }
 
 body {
     margin: 0;
+    min-width: 320px;
+    overflow-x: hidden;
     background: #111111;
     color: var(--ink);
     font-family: 'DM Sans', sans-serif;
     font-size: 14px;
     line-height: 1.5;
+}
+
+img {
+    max-width: 100%;
 }
 
 button,
@@ -65,6 +72,11 @@ textarea:focus-visible {
     outline-offset: 2px;
 }
 
+button:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
 
 /* ==========================================
    4. APP LAYOUT
@@ -74,7 +86,7 @@ textarea:focus-visible {
     width: 100%;
     max-width: 1080px;
     min-height: 100vh;
-    margin: auto;
+    margin: 0 auto;
     background: var(--cream);
     position: relative;
     padding-bottom: 88px;
@@ -86,6 +98,7 @@ textarea:focus-visible {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 15px;
     padding: 0 6%;
     background: rgba(26, 26, 26, 0.96);
     border-bottom: 1px solid var(--line);
@@ -96,7 +109,8 @@ textarea:focus-visible {
 }
 
 main {
-    max-width: 760px;
+    width: 100%;
+    max-width: 900px;
     margin: 0 auto;
     padding: 28px 6% 34px;
 }
@@ -107,14 +121,32 @@ main {
 ========================================== */
 
 .brand {
-    display: flex;
+    display: inline-flex;
     align-items: center;
     gap: 10px;
+    min-width: 0;
+    flex-shrink: 0;
     text-decoration: none;
     color: var(--gold);
     font-weight: 700;
     font-size: 18px;
     letter-spacing: -0.5px;
+}
+
+.brand-logo {
+    display: block;
+    width: 38px;
+    height: 38px;
+    max-width: 38px;
+    max-height: 38px;
+    object-fit: contain;
+    object-position: center;
+    flex: 0 0 38px;
+    border-radius: 8px;
+}
+
+.brand > span {
+    white-space: nowrap;
 }
 
 .brand-mark {
@@ -138,6 +170,9 @@ main {
     border-radius: 50%;
     width: 38px;
     height: 38px;
+    flex: 0 0 38px;
+    display: grid;
+    place-items: center;
 }
 
 
@@ -176,12 +211,14 @@ main {
 ========================================== */
 
 .auth-screen {
+    width: 100%;
     max-width: 100%;
     padding: 0;
 }
 
 .auth-art {
     position: relative;
+    isolation: isolate;
     overflow: hidden;
     background: linear-gradient(135deg, #5b0000, #1a1a1a);
     color: white;
@@ -253,6 +290,7 @@ main {
     bottom: 25px;
     font-size: 54px;
     color: var(--gold);
+    pointer-events: none;
 }
 
 .auth-art > *:not(.art-circle):not(.art-icon) {
@@ -267,6 +305,7 @@ main {
 
 .auth-card,
 .form-card {
+    min-width: 0;
     background: var(--paper);
     border: 1px solid var(--line);
     border-radius: 20px;
@@ -303,6 +342,7 @@ input,
 select,
 textarea {
     width: 100%;
+    min-width: 0;
     border: 1px solid #554448;
     border-radius: 11px;
     background: #202020;
@@ -322,6 +362,11 @@ textarea:focus {
     border-color: var(--gold);
     outline: none;
     box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.13);
+}
+
+input:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
 }
 
 textarea {
@@ -354,6 +399,7 @@ textarea {
     color: #c8bdb2;
     border: 1px solid var(--line);
     font-size: 11px;
+    overflow-wrap: anywhere;
 }
 
 .demo-note code {
@@ -427,6 +473,10 @@ textarea {
     padding: 4px;
 }
 
+.text-button:hover {
+    color: #f0d778;
+}
+
 
 /* ==========================================
    9. PAGE HEADINGS
@@ -437,13 +487,19 @@ textarea {
     justify-content: space-between;
     align-items: center;
     gap: 16px;
+    min-width: 0;
     margin: 8px 0 24px;
+}
+
+.page-heading > div {
+    min-width: 0;
 }
 
 .page-heading h1 {
     font-size: 36px;
     margin: 4px 0;
     color: var(--ink);
+    overflow-wrap: anywhere;
 }
 
 .page-heading .muted {
@@ -453,6 +509,7 @@ textarea {
 
 .add-top {
     white-space: nowrap;
+    flex-shrink: 0;
     padding: 10px 13px;
 }
 
@@ -470,6 +527,7 @@ textarea {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 12px;
     position: relative;
     overflow: hidden;
     margin: 0 0 29px;
@@ -490,6 +548,7 @@ textarea {
 }
 
 .welcome-symbol {
+    flex-shrink: 0;
     font-size: 56px;
     color: var(--gold);
     padding: 0 12px;
@@ -504,6 +563,7 @@ textarea {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 10px;
     margin: 24px 0 13px;
 }
 
@@ -596,6 +656,7 @@ textarea {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 12px;
 }
 
 .progress-head h3 {
@@ -612,6 +673,7 @@ textarea {
 .progress-head > strong {
     color: var(--gold);
     font-size: 19px;
+    flex-shrink: 0;
 }
 
 .progress-track {
@@ -638,6 +700,7 @@ textarea {
 .task-list {
     display: grid;
     gap: 10px;
+    min-width: 0;
 }
 
 .task-card {
@@ -726,6 +789,7 @@ textarea {
 
 .task-actions {
     display: flex;
+    flex-shrink: 0;
     gap: 4px;
     margin-left: auto;
 }
@@ -790,6 +854,7 @@ textarea {
     position: relative;
     display: flex;
     align-items: center;
+    min-width: 0;
     margin-bottom: 14px;
 }
 
@@ -799,6 +864,7 @@ textarea {
     font-size: 23px;
     color: var(--gold);
     top: 5px;
+    pointer-events: none;
 }
 
 .search-wrap input {
@@ -822,6 +888,7 @@ textarea {
     gap: 7px;
     overflow-x: auto;
     padding-bottom: 4px;
+    scrollbar-width: thin;
 }
 
 .filter-chip {
@@ -833,6 +900,7 @@ textarea {
     white-space: nowrap;
     font-size: 11px;
     font-weight: 600;
+    flex-shrink: 0;
 }
 
 .filter-chip.selected {
@@ -856,6 +924,7 @@ textarea {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 10px;
     color: var(--muted);
     font-size: 11px;
     margin: 17px 0 10px;
@@ -863,6 +932,7 @@ textarea {
 
 .list-summary select {
     width: auto;
+    max-width: 60%;
     min-height: 32px;
     padding: 5px 9px;
     border-radius: 8px;
@@ -880,6 +950,7 @@ textarea {
     color: var(--gold);
     width: 39px;
     height: 39px;
+    flex: 0 0 39px;
     border-radius: 12px;
     font-size: 25px;
 }
@@ -896,13 +967,18 @@ textarea {
 
 .form-two {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     gap: 12px;
+}
+
+.form-two > div {
+    min-width: 0;
 }
 
 .form-actions {
     display: flex;
     justify-content: flex-end;
+    flex-wrap: wrap;
     gap: 10px;
     margin-top: 24px;
 }
@@ -944,14 +1020,17 @@ textarea {
     font-size: 24px;
     color: var(--gold);
     margin: 0;
+    overflow-wrap: anywhere;
 }
 
 .profile-hero .muted {
     font-size: 12px;
     margin: 3px 0 12px;
+    overflow-wrap: anywhere;
 }
 
 .profile-tag {
+    display: inline-block;
     font-size: 9px;
     letter-spacing: 1.4px;
     color: var(--gold);
@@ -966,6 +1045,7 @@ textarea {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 15px;
     padding: 16px;
     background: var(--paper);
     border: 1px solid var(--line);
@@ -987,6 +1067,7 @@ textarea {
 .settings-card > span {
     color: var(--gold);
     font-size: 20px;
+    flex-shrink: 0;
 }
 
 .logout-btn {
@@ -1014,10 +1095,12 @@ textarea {
     transform: translateX(-50%);
     width: min(100%, 1080px);
     height: 76px;
-    padding: 8px 7% max(8px, env(safe-area-inset-bottom));
+    padding: 8px 7%;
+    padding-bottom: max(8px, env(safe-area-inset-bottom));
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 6px;
     background: rgba(26, 26, 26, 0.97);
     border-top: 1px solid var(--line);
     backdrop-filter: blur(12px);
@@ -1034,6 +1117,7 @@ textarea {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     gap: 2px;
     min-width: 52px;
     padding: 3px;
@@ -1056,6 +1140,7 @@ textarea {
 .nav-add {
     width: 48px;
     height: 48px;
+    flex: 0 0 48px;
     border: 1px solid var(--gold);
     border-radius: 16px;
     background: var(--green);
@@ -1087,6 +1172,7 @@ textarea {
     box-shadow: var(--shadow);
     width: max-content;
     max-width: 90%;
+    overflow-wrap: anywhere;
     transition: all 0.22s;
 }
 
@@ -1108,6 +1194,7 @@ textarea {
     display: grid;
     place-items: center;
     padding: 20px;
+    overflow-y: auto;
 }
 
 .modal-backdrop.hidden {
@@ -1182,15 +1269,17 @@ textarea {
 
     .auth-screen.active {
         display: grid !important;
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
         gap: 24px;
         align-items: center;
+        width: 100%;
         max-width: 900px;
         margin: 25px auto;
     }
 
     .auth-art {
         margin: 0;
+        min-width: 0;
         min-height: 420px;
         display: flex;
         flex-direction: column;
@@ -1199,6 +1288,7 @@ textarea {
     }
 
     .auth-card {
+        min-width: 0;
         padding: 32px;
     }
 
@@ -1237,13 +1327,30 @@ textarea {
 ========================================== */
 
 @media (max-width: 380px) {
+    .topbar {
+        padding: 0 4%;
+    }
+
+    .brand {
+        gap: 8px;
+        font-size: 16px;
+    }
+
+    .brand-logo {
+        width: 34px;
+        height: 34px;
+        max-width: 34px;
+        max-height: 34px;
+        flex-basis: 34px;
+    }
+
     main {
         padding-left: 4%;
         padding-right: 4%;
     }
 
-    .topbar {
-        padding: 0 4%;
+    .page-heading {
+        gap: 8px;
     }
 
     .page-heading h1 {
@@ -1252,6 +1359,7 @@ textarea {
 
     .add-top {
         padding: 9px;
+        gap: 5px;
     }
 
     .stats-grid {
@@ -1262,12 +1370,20 @@ textarea {
         padding: 11px 8px;
     }
 
+    .stat-label {
+        font-size: 9px;
+    }
+
+    .stat-card strong {
+        font-size: 23px;
+    }
+
     .stat-caption {
         font-size: 8px;
     }
 
     .form-two {
-        grid-template-columns: 1fr;
+        grid-template-columns: minmax(0, 1fr);
     }
 
     .welcome-card {
@@ -1276,5 +1392,41 @@ textarea {
 
     .welcome-symbol {
         font-size: 42px;
+        padding: 0;
+    }
+
+    .auth-card,
+    .form-card {
+        padding: 22px 5%;
+    }
+
+    .task-card {
+        gap: 8px;
+        padding: 12px;
+    }
+
+    .task-actions {
+        gap: 3px;
+    }
+
+    .mini-action {
+        width: 27px;
+        height: 27px;
+    }
+}
+
+
+/* ==========================================
+   24. REDUCED MOTION ACCESSIBILITY
+========================================== */
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
     }
 }

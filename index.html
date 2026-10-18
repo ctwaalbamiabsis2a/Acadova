@@ -4,51 +4,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#203c32">
+    <meta name="theme-color" content="#5b0000">
+    <meta name="description" content="Acadova helps students organize schoolwork, manage tasks, and stay on track.">
 
-    <title>StudyFlow | Student Task Planner</title>
+    <title>Acadova | Student Task Planner</title>
 
-    <!-- CSS -->
+    <!-- Stylesheet -->
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
     <div class="app-shell">
 
-        <!-- ================= HEADER ================= -->
+        <!-- HEADER -->
         <header class="topbar">
-            <a class="brand" href="#" id="brandHome" aria-label="StudyFlow home">
-                <span class="brand-mark">S</span>
-                <span>StudyFlow</span>
+            <a class="brand" href="#" id="brandHome" aria-label="Acadova home">
+                <img
+                    src="acadovalogo.png"
+                    alt=""
+                    class="brand-logo"
+                >
+                <span>Acadova</span>
             </a>
 
             <button
                 class="avatar-button"
                 id="headerAvatar"
+                type="button"
                 aria-label="Open profile"
             >
                 S
             </button>
         </header>
 
-
-        <!-- ================= MAIN CONTENT ================= -->
         <main>
 
-            <!-- ========== LOGIN SCREEN ========== -->
+            <!-- LOGIN SCREEN -->
             <section class="screen auth-screen active" id="loginScreen">
 
                 <div class="auth-art">
                     <div class="art-circle circle-one"></div>
                     <div class="art-circle circle-two"></div>
 
-                    <span class="art-icon">✦</span>
+                    <span class="art-icon" aria-hidden="true">✦</span>
 
                     <p class="eyebrow">YOUR SPACE TO SUCCEED</p>
 
                     <h1>
-                        Make room for<br>
-                        <em>what matters.</em>
+                        Organize Today.<br>
+                        <em>Achieve Tomorrow.</em>
                     </h1>
 
                     <p class="auth-intro">
@@ -91,7 +95,7 @@
                     </button>
 
                     <p class="auth-switch">
-                        New to StudyFlow?
+                        New to Acadova?
                         <button
                             type="button"
                             class="text-button"
@@ -104,14 +108,14 @@
                     <div class="demo-note">
                         <strong>Demo tip:</strong>
                         Create an account or use
-                        <code>demo@studyflow.com</code> /
+                        <code>demo@acadova.com</code> /
                         <code>study123</code>.
                     </div>
                 </form>
             </section>
 
 
-            <!-- ========== REGISTER SCREEN ========== -->
+            <!-- REGISTER SCREEN -->
             <section class="screen auth-screen" id="registerScreen">
 
                 <div class="auth-art compact-art">
@@ -186,20 +190,14 @@
             </section>
 
 
-            <!-- ========== DASHBOARD SCREEN ========== -->
+            <!-- DASHBOARD SCREEN -->
             <section class="screen app-screen" id="dashboardScreen">
 
                 <div class="page-heading">
                     <div>
-                        <p class="eyebrow" id="todayLabel">
-                            YOUR STUDY SPACE
-                        </p>
-
+                        <p class="eyebrow" id="todayLabel">YOUR STUDY SPACE</p>
                         <h1 id="greeting">Good day!</h1>
-
-                        <p class="muted">
-                            A little progress adds up.
-                        </p>
+                        <p class="muted">A little progress adds up.</p>
                     </div>
 
                     <button class="button primary add-top" id="quickAddBtn">
@@ -212,26 +210,23 @@
                     <div>
                         <p class="eyebrow light">KEEP GOING</p>
                         <h2>You’ve got this.</h2>
-
                         <p id="welcomeSummary">
                             Every task completed is progress.
                         </p>
                     </div>
 
-                    <div class="welcome-symbol">✦</div>
+                    <div class="welcome-symbol" aria-hidden="true">✦</div>
                 </div>
 
                 <!-- Task overview -->
                 <div class="section-heading">
                     <h2>Your overview</h2>
-
                     <button class="text-button" data-screen="tasksScreen">
                         View tasks →
                     </button>
                 </div>
 
                 <div class="stats-grid">
-
                     <article class="stat-card">
                         <span class="stat-icon mint">☷</span>
                         <span class="stat-label">Total tasks</span>
@@ -252,10 +247,9 @@
                         <strong id="completedCount">0</strong>
                         <span class="stat-caption">Well done!</span>
                     </article>
-
                 </div>
 
-                <!-- Progress bar -->
+                <!-- Progress -->
                 <article class="progress-card">
                     <div class="progress-head">
                         <div>
@@ -274,7 +268,6 @@
                 <!-- Upcoming tasks -->
                 <div class="section-heading">
                     <h2>Coming up</h2>
-
                     <button class="text-button" data-screen="tasksScreen">
                         See all
                     </button>
@@ -284,17 +277,14 @@
             </section>
 
 
-            <!-- ========== ALL TASKS SCREEN ========== -->
+            <!-- ALL TASKS SCREEN -->
             <section class="screen app-screen" id="tasksScreen">
 
                 <div class="page-heading">
                     <div>
                         <p class="eyebrow">STAY ON TRACK</p>
                         <h1>My tasks</h1>
-
-                        <p class="muted">
-                            All your schoolwork, in one place.
-                        </p>
+                        <p class="muted">All your schoolwork, in one place.</p>
                     </div>
 
                     <button class="button primary add-top" id="tasksAddBtn">
@@ -304,7 +294,7 @@
 
                 <!-- Search -->
                 <div class="search-wrap">
-                    <span>⌕</span>
+                    <span aria-hidden="true">⌕</span>
 
                     <input
                         type="search"
@@ -315,6 +305,7 @@
 
                     <button
                         id="clearSearch"
+                        type="button"
                         aria-label="Clear search"
                         class="clear-search"
                     >
@@ -338,9 +329,7 @@
                 </div>
 
                 <!-- Subject filter -->
-                <label class="filter-label" for="subjectFilter">
-                    SUBJECT
-                </label>
+                <label class="filter-label" for="subjectFilter">SUBJECT</label>
 
                 <select id="subjectFilter" class="select-control">
                     <option value="all">All subjects</option>
@@ -363,27 +352,24 @@
                     </select>
                 </div>
 
-                <!-- Tasks are displayed by JavaScript -->
                 <div id="allTasksList" class="task-list"></div>
             </section>
 
 
-            <!-- ========== ADD / EDIT TASK SCREEN ========== -->
+            <!-- ADD / EDIT TASK SCREEN -->
             <section class="screen app-screen" id="taskFormScreen">
 
                 <div class="page-heading">
                     <div>
                         <p class="eyebrow">PLAN IT OUT</p>
                         <h1 id="taskFormTitle">Add a task</h1>
-
-                        <p class="muted">
-                            Give your next step a clear plan.
-                        </p>
+                        <p class="muted">Give your next step a clear plan.</p>
                     </div>
 
                     <button
                         class="icon-button"
                         id="cancelTaskBtn"
+                        type="button"
                         aria-label="Close form"
                     >
                         ×
@@ -391,7 +377,6 @@
                 </div>
 
                 <form id="taskForm" class="form-card">
-
                     <input type="hidden" id="taskId">
 
                     <label for="taskTitle">
@@ -425,13 +410,11 @@
                             <label for="taskDue">
                                 Due date <span class="required">*</span>
                             </label>
-
                             <input id="taskDue" type="date" required>
                         </div>
 
                         <div>
                             <label for="taskPriority">Priority</label>
-
                             <select id="taskPriority">
                                 <option>Medium</option>
                                 <option>High</option>
@@ -440,9 +423,7 @@
                         </div>
                     </div>
 
-                    <label for="taskDescription">
-                        Notes (optional)
-                    </label>
+                    <label for="taskDescription">Notes (optional)</label>
 
                     <textarea
                         id="taskDescription"
@@ -471,31 +452,27 @@
             </section>
 
 
-            <!-- ========== PROFILE SCREEN ========== -->
+            <!-- PROFILE SCREEN -->
             <section class="screen app-screen" id="profileScreen">
 
                 <div class="page-heading">
                     <div>
                         <p class="eyebrow">YOUR ACCOUNT</p>
                         <h1>Profile</h1>
-
-                        <p class="muted">
-                            Make StudyFlow feel like yours.
-                        </p>
+                        <p class="muted">Make Acadova feel like yours.</p>
                     </div>
                 </div>
 
                 <!-- Profile information -->
                 <div class="profile-hero">
                     <div class="profile-avatar" id="profileAvatar">S</div>
-
                     <h2 id="profileName">Student</h2>
 
                     <p class="muted" id="profileEmail">
                         student@example.com
                     </p>
 
-                    <span class="profile-tag">STUDYFLOW MEMBER</span>
+                    <span class="profile-tag">ACADOVA MEMBER</span>
                 </div>
 
                 <!-- Edit profile -->
@@ -503,7 +480,6 @@
                     <h3>Personal details</h3>
 
                     <label for="profileNameInput">Display name</label>
-
                     <input
                         id="profileNameInput"
                         type="text"
@@ -512,7 +488,6 @@
                     >
 
                     <label for="profileEmailInput">Email address</label>
-
                     <input
                         id="profileEmailInput"
                         type="email"
@@ -528,24 +503,24 @@
                 <div class="settings-card">
                     <div>
                         <strong>Keep your focus</strong>
-
                         <p class="muted">
                             Your tasks are saved in this browser.
                         </p>
                     </div>
 
-                    <span>✓</span>
+                    <span aria-hidden="true">✓</span>
                 </div>
 
                 <button
                     class="button danger-outline full logout-btn"
                     id="logoutBtn"
+                    type="button"
                 >
                     ↪ Log out
                 </button>
 
                 <p class="footnote">
-                    StudyFlow · Student Task Planner<br>
+                    Acadova · Student Task Planner<br>
                     Classroom prototype only
                 </p>
             </section>
@@ -553,38 +528,45 @@
         </main>
 
 
-        <!-- ================= BOTTOM NAVIGATION ================= -->
-        <nav class="bottom-nav hidden" id="bottomNav" aria-label="Main navigation">
-
+        <!-- BOTTOM NAVIGATION -->
+        <nav
+            class="bottom-nav hidden"
+            id="bottomNav"
+            aria-label="Main navigation"
+        >
             <button class="nav-item active" data-screen="dashboardScreen">
-                <span>⌂</span>
+                <span aria-hidden="true">⌂</span>
                 <small>Home</small>
             </button>
 
             <button class="nav-item" data-screen="tasksScreen">
-                <span>☷</span>
+                <span aria-hidden="true">☷</span>
                 <small>My tasks</small>
             </button>
 
-            <button class="nav-add" id="navAddBtn" aria-label="Add a task">
+            <button
+                class="nav-add"
+                id="navAddBtn"
+                type="button"
+                aria-label="Add a task"
+            >
                 ＋
             </button>
 
             <button class="nav-item" data-screen="profileScreen">
-                <span>♙</span>
+                <span aria-hidden="true">♙</span>
                 <small>Profile</small>
             </button>
-
         </nav>
 
     </div>
 
 
-    <!-- ================= NOTIFICATIONS ================= -->
+    <!-- NOTIFICATIONS -->
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 
-    <!-- ================= DELETE CONFIRMATION MODAL ================= -->
+    <!-- DELETE CONFIRMATION MODAL -->
     <div
         class="modal-backdrop hidden"
         id="deleteModal"
@@ -593,8 +575,7 @@
         aria-labelledby="deleteModalTitle"
     >
         <div class="modal-card">
-
-            <div class="modal-icon">!</div>
+            <div class="modal-icon" aria-hidden="true">!</div>
 
             <h2 id="deleteModalTitle">Delete this task?</h2>
 
@@ -604,15 +585,14 @@
             </p>
 
             <div class="modal-actions">
-                <button class="button secondary" id="keepTaskBtn">
+                <button class="button secondary" id="keepTaskBtn" type="button">
                     Keep task
                 </button>
 
-                <button class="button danger" id="confirmDeleteBtn">
+                <button class="button danger" id="confirmDeleteBtn" type="button">
                     Delete
                 </button>
             </div>
-
         </div>
     </div>
 

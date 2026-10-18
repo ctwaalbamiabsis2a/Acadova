@@ -94,12 +94,12 @@ button:disabled {
 }
 
 .topbar {
-    height: 72px;
+    min-height: 82px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-start;
     gap: 15px;
-    padding: 0 6%;
+    padding: 10px 6%;
     background: rgba(26, 26, 26, 0.96);
     border-bottom: 1px solid var(--line);
     position: sticky;
@@ -123,31 +123,21 @@ main {
 .brand {
     display: inline-flex;
     align-items: center;
-    gap: 10px;
     min-width: 0;
     flex-shrink: 0;
     text-decoration: none;
-    color: var(--gold);
-    font-weight: 700;
-    font-size: 18px;
-    letter-spacing: -0.5px;
 }
 
 .brand-logo {
     display: block;
-    width: 38px;
-    height: 38px;
-    max-width: 38px;
-    max-height: 38px;
+    width: 280px;
+    max-width: 100%;
+    height: auto;
     object-fit: contain;
-    object-position: center;
-    flex: 0 0 38px;
-    border-radius: 8px;
+    object-position: left center;
 }
 
-.brand > span {
-    white-space: nowrap;
-}
+/* Kept for compatibility if used elsewhere */
 
 .brand-mark {
     width: 34px;
@@ -163,16 +153,7 @@ main {
 }
 
 .avatar-button {
-    border: 1px solid var(--gold);
-    background: var(--mint);
-    color: var(--gold);
-    font-weight: 700;
-    border-radius: 50%;
-    width: 38px;
-    height: 38px;
-    flex: 0 0 38px;
-    display: grid;
-    place-items: center;
+    display: none;
 }
 
 
@@ -1256,7 +1237,11 @@ textarea {
     }
 
     .topbar {
-        padding: 0 8%;
+        padding: 10px 8%;
+    }
+
+    .brand-logo {
+        width: 340px;
     }
 
     main {
@@ -1328,20 +1313,12 @@ textarea {
 
 @media (max-width: 380px) {
     .topbar {
-        padding: 0 4%;
-    }
-
-    .brand {
-        gap: 8px;
-        font-size: 16px;
+        padding: 10px 4%;
+        min-height: 70px;
     }
 
     .brand-logo {
-        width: 34px;
-        height: 34px;
-        max-width: 34px;
-        max-height: 34px;
-        flex-basis: 34px;
+        width: 230px;
     }
 
     main {

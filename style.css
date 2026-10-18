@@ -11,17 +11,17 @@
 ========================================== */
 
 :root {
-    --green: #203c32;
-    --green2: #315747;
-    --mint: #dcebe1;
-    --cream: #f7f6f0;
-    --paper: #fff;
-    --ink: #202b25;
-    --muted: #7a847d;
-    --line: #e6e9e2;
-    --gold: #d5b36a;
-    --red: #b84d45;
-    --shadow: 0 12px 32px rgba(32, 60, 50, 0.08);
+    --green: #5b0000;
+    --green2: #800000;
+    --mint: #3a2023;
+    --cream: #1a1a1a;
+    --paper: #2d2d2d;
+    --ink: #f7f2e8;
+    --muted: #b9b0a3;
+    --line: #49383a;
+    --gold: #d4af37;
+    --red: #a52a2a;
+    --shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
 }
 
 
@@ -39,7 +39,7 @@ html {
 
 body {
     margin: 0;
-    background: #edf0e9;
+    background: #111111;
     color: var(--ink);
     font-family: 'DM Sans', sans-serif;
     font-size: 14px;
@@ -61,7 +61,7 @@ button:focus-visible,
 input:focus-visible,
 select:focus-visible,
 textarea:focus-visible {
-    outline: 3px solid #b4d0bd;
+    outline: 3px solid var(--gold);
     outline-offset: 2px;
 }
 
@@ -78,7 +78,7 @@ textarea:focus-visible {
     background: var(--cream);
     position: relative;
     padding-bottom: 88px;
-    box-shadow: 0 0 60px rgba(26, 45, 34, 0.06);
+    box-shadow: 0 0 60px rgba(0, 0, 0, 0.25);
 }
 
 .topbar {
@@ -87,7 +87,7 @@ textarea:focus-visible {
     align-items: center;
     justify-content: space-between;
     padding: 0 6%;
-    background: rgba(247, 246, 240, 0.94);
+    background: rgba(26, 26, 26, 0.96);
     border-bottom: 1px solid var(--line);
     position: sticky;
     top: 0;
@@ -111,7 +111,7 @@ main {
     align-items: center;
     gap: 10px;
     text-decoration: none;
-    color: var(--green);
+    color: var(--gold);
     font-weight: 700;
     font-size: 18px;
     letter-spacing: -0.5px;
@@ -121,18 +121,19 @@ main {
     width: 34px;
     height: 34px;
     background: var(--green);
-    color: #fff;
+    color: var(--gold);
     display: grid;
     place-items: center;
     border-radius: 11px;
     font-family: 'Playfair Display', serif;
     font-size: 22px;
+    border: 1px solid var(--gold);
 }
 
 .avatar-button {
-    border: 0;
+    border: 1px solid var(--gold);
     background: var(--mint);
-    color: var(--green);
+    color: var(--gold);
     font-weight: 700;
     border-radius: 50%;
     width: 38px;
@@ -182,9 +183,10 @@ main {
 .auth-art {
     position: relative;
     overflow: hidden;
-    background: var(--green);
+    background: linear-gradient(135deg, #5b0000, #1a1a1a);
     color: white;
     padding: 36px 7% 34px;
+    border: 1px solid rgba(212, 175, 55, 0.35);
     border-radius: 22px;
     margin-bottom: 24px;
     min-height: 265px;
@@ -201,7 +203,7 @@ main {
 }
 
 .auth-art h1 em {
-    color: #d9c28c;
+    color: var(--gold);
     font-weight: 600;
 }
 
@@ -209,24 +211,24 @@ main {
     font-size: 10px;
     letter-spacing: 1.8px;
     font-weight: 700;
-    color: var(--green2);
+    color: var(--gold);
     margin: 0 0 8px;
 }
 
 .eyebrow.light {
-    color: #c8d9c9;
+    color: #e7cf7c;
 }
 
 .auth-intro {
     max-width: 330px;
-    color: #d5e0d7;
+    color: #e4dcd3;
     margin: 12px 0 0;
     font-size: 13px;
 }
 
 .art-circle {
     position: absolute;
-    border: 1px solid rgba(255, 255, 255, 0.16);
+    border: 1px solid rgba(212, 175, 55, 0.24);
     border-radius: 50%;
     pointer-events: none;
 }
@@ -265,7 +267,7 @@ main {
 
 .auth-card,
 .form-card {
-    background: white;
+    background: var(--paper);
     border: 1px solid var(--line);
     border-radius: 20px;
     padding: 25px 6%;
@@ -276,6 +278,7 @@ main {
 .modal-card h2 {
     font-family: 'Playfair Display', serif;
     font-size: 26px;
+    color: var(--gold);
     margin: 0 0 4px;
 }
 
@@ -293,15 +296,16 @@ label {
     font-weight: 600;
     font-size: 12px;
     margin: 16px 0 7px;
+    color: var(--ink);
 }
 
 input,
 select,
 textarea {
     width: 100%;
-    border: 1px solid #dfe4dc;
+    border: 1px solid #554448;
     border-radius: 11px;
-    background: #fff;
+    background: #202020;
     padding: 12px 13px;
     color: var(--ink);
     min-height: 45px;
@@ -309,15 +313,15 @@ textarea {
 
 input::placeholder,
 textarea::placeholder {
-    color: #a2aaa3;
+    color: #a69b91;
 }
 
 input:focus,
 select:focus,
 textarea:focus {
-    border-color: #71917b;
+    border-color: var(--gold);
     outline: none;
-    box-shadow: 0 0 0 3px rgba(113, 145, 123, 0.13);
+    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.13);
 }
 
 textarea {
@@ -325,7 +329,7 @@ textarea {
 }
 
 .form-error {
-    color: var(--red);
+    color: #ff8c82;
     font-size: 12px;
     min-height: 0;
     margin: 8px 0 0;
@@ -346,13 +350,14 @@ textarea {
     margin-top: 20px;
     padding: 12px;
     border-radius: 10px;
-    background: #f5f6f1;
-    color: #667168;
+    background: #242020;
+    color: #c8bdb2;
+    border: 1px solid var(--line);
     font-size: 11px;
 }
 
 .demo-note code {
-    color: var(--green);
+    color: var(--gold);
     font-size: 10px;
 }
 
@@ -380,7 +385,8 @@ textarea {
 
 .button.primary {
     background: var(--green);
-    color: white;
+    color: var(--gold);
+    border: 1px solid var(--gold);
 }
 
 .button.primary:hover {
@@ -388,8 +394,9 @@ textarea {
 }
 
 .button.secondary {
-    background: #eef1eb;
-    color: var(--green);
+    background: #33302b;
+    color: var(--gold);
+    border: 1px solid #66552c;
 }
 
 .button.danger {
@@ -399,8 +406,8 @@ textarea {
 
 .button.danger-outline {
     background: transparent;
-    color: var(--red);
-    border: 1px solid #e6b9b5;
+    color: #ff9289;
+    border: 1px solid #934b45;
 }
 
 .button.full {
@@ -415,7 +422,7 @@ textarea {
 .text-button {
     border: 0;
     background: transparent;
-    color: var(--green2);
+    color: var(--gold);
     font-weight: 700;
     padding: 4px;
 }
@@ -436,6 +443,7 @@ textarea {
 .page-heading h1 {
     font-size: 36px;
     margin: 4px 0;
+    color: var(--ink);
 }
 
 .page-heading .muted {
@@ -454,7 +462,8 @@ textarea {
 ========================================== */
 
 .welcome-card {
-    background: var(--green);
+    background: linear-gradient(120deg, #5b0000, #1a1a1a);
+    border: 1px solid rgba(212, 175, 55, 0.35);
     border-radius: 19px;
     padding: 24px;
     color: white;
@@ -469,12 +478,13 @@ textarea {
 .welcome-card h2 {
     font-family: 'Playfair Display', serif;
     font-size: 27px;
+    color: var(--gold);
     margin: 2px 0 4px;
 }
 
 .welcome-card p:not(.eyebrow) {
     font-size: 12px;
-    color: #d3dfd5;
+    color: #e1d6ce;
     margin: 0;
     max-width: 230px;
 }
@@ -499,6 +509,7 @@ textarea {
 
 .section-heading h2 {
     font-size: 17px;
+    color: var(--gold);
     margin: 0;
     letter-spacing: -0.3px;
 }
@@ -515,7 +526,7 @@ textarea {
 }
 
 .stat-card {
-    background: white;
+    background: var(--paper);
     border: 1px solid var(--line);
     border-radius: 15px;
     padding: 14px 12px;
@@ -535,18 +546,18 @@ textarea {
 }
 
 .mint {
-    background: #e2eee5;
-    color: #315747;
+    background: #3a2023;
+    color: var(--gold);
 }
 
 .peach {
-    background: #f8e8dc;
-    color: #a35d39;
+    background: #462b22;
+    color: #e5a06e;
 }
 
 .lilac {
-    background: #ece7f7;
-    color: #7963a5;
+    background: #34283e;
+    color: #c1a4ed;
 }
 
 .stat-label {
@@ -560,11 +571,12 @@ textarea {
     line-height: 1.25;
     margin: 4px 0;
     font-weight: 700;
+    color: var(--gold);
 }
 
 .stat-caption {
     font-size: 9px;
-    color: #9ba39c;
+    color: #aaa096;
 }
 
 
@@ -574,7 +586,7 @@ textarea {
 
 .progress-card {
     margin-top: 14px;
-    background: white;
+    background: var(--paper);
     border: 1px solid var(--line);
     padding: 18px;
     border-radius: 15px;
@@ -594,17 +606,18 @@ textarea {
 .progress-head p {
     font-size: 11px;
     margin: 3px 0 0;
+    color: var(--muted);
 }
 
 .progress-head > strong {
-    color: var(--green);
+    color: var(--gold);
     font-size: 19px;
 }
 
 .progress-track {
     height: 8px;
     border-radius: 20px;
-    background: #edf0e9;
+    background: #49413a;
     margin-top: 15px;
     overflow: hidden;
 }
@@ -612,7 +625,7 @@ textarea {
 .progress-bar {
     height: 100%;
     width: 0;
-    background: #6d957b;
+    background: var(--gold);
     border-radius: 20px;
     transition: width 0.25s;
 }
@@ -632,7 +645,7 @@ textarea {
     gap: 12px;
     align-items: flex-start;
     padding: 15px;
-    background: #fff;
+    background: var(--paper);
     border: 1px solid var(--line);
     border-radius: 14px;
     min-width: 0;
@@ -642,19 +655,19 @@ textarea {
     width: 22px;
     height: 22px;
     flex: 0 0 22px;
-    border: 1.5px solid #cbd4ca;
-    background: white;
+    border: 1.5px solid #7b6a54;
+    background: #202020;
     border-radius: 7px;
     display: grid;
     place-items: center;
-    color: white;
+    color: #1a1a1a;
     padding: 0;
     margin-top: 2px;
 }
 
 .task-check.checked {
-    background: var(--green);
-    border-color: var(--green);
+    background: var(--gold);
+    border-color: var(--gold);
 }
 
 .task-main {
@@ -667,11 +680,12 @@ textarea {
     font-size: 13px;
     overflow-wrap: anywhere;
     margin: 0;
+    color: var(--ink);
 }
 
 .task-card.is-complete .task-title {
     text-decoration: line-through;
-    color: #929b93;
+    color: #92877c;
 }
 
 .task-meta {
@@ -686,23 +700,23 @@ textarea {
     font-size: 10px;
     border-radius: 6px;
     padding: 4px 7px;
-    background: #eef2ed;
-    color: #5d6f61;
+    background: #3a2023;
+    color: #e4c5b0;
 }
 
 .pill.high {
-    background: #fae7e4;
-    color: #a9473f;
+    background: #552523;
+    color: #ffb4ab;
 }
 
 .pill.low {
-    background: #e9eef9;
-    color: #526a9b;
+    background: #292f42;
+    color: #b9caff;
 }
 
 .pill.medium {
-    background: #f7f0db;
-    color: #8c7134;
+    background: #46391f;
+    color: #e8d18a;
 }
 
 .due-text {
@@ -717,9 +731,9 @@ textarea {
 }
 
 .mini-action {
-    border: 0;
-    background: #f3f5f0;
-    color: #5e6c61;
+    border: 1px solid #49413a;
+    background: #252321;
+    color: var(--gold);
     width: 29px;
     height: 29px;
     border-radius: 8px;
@@ -727,7 +741,7 @@ textarea {
 }
 
 .mini-action.delete {
-    color: var(--red);
+    color: #ff9289;
 }
 
 
@@ -738,8 +752,8 @@ textarea {
 .empty-state {
     padding: 32px 18px;
     text-align: center;
-    background: white;
-    border: 1px dashed #d5ddd3;
+    background: var(--paper);
+    border: 1px dashed #66554c;
     border-radius: 15px;
 }
 
@@ -751,13 +765,14 @@ textarea {
     margin: 0 auto 12px;
     border-radius: 15px;
     background: var(--mint);
-    color: var(--green);
+    color: var(--gold);
     font-size: 23px;
 }
 
 .empty-state h3 {
     margin: 0 0 5px;
     font-size: 15px;
+    color: var(--gold);
 }
 
 .empty-state p {
@@ -782,14 +797,14 @@ textarea {
     position: absolute;
     left: 14px;
     font-size: 23px;
-    color: #7d8b7e;
+    color: var(--gold);
     top: 5px;
 }
 
 .search-wrap input {
     padding-left: 42px;
     padding-right: 42px;
-    background: white;
+    background: #202020;
 }
 
 .clear-search {
@@ -810,9 +825,9 @@ textarea {
 }
 
 .filter-chip {
-    border: 1px solid #e0e5dc;
+    border: 1px solid #554448;
     background: transparent;
-    color: #68756b;
+    color: var(--muted);
     border-radius: 9px;
     padding: 8px 12px;
     white-space: nowrap;
@@ -822,8 +837,8 @@ textarea {
 
 .filter-chip.selected {
     background: var(--green);
-    color: white;
-    border-color: var(--green);
+    color: var(--gold);
+    border-color: var(--gold);
 }
 
 .filter-label {
@@ -834,7 +849,7 @@ textarea {
 }
 
 .select-control {
-    background: white;
+    background: #202020;
 }
 
 .list-summary {
@@ -860,9 +875,9 @@ textarea {
 ========================================== */
 
 .icon-button {
-    border: 0;
-    background: #e8ece5;
-    color: var(--green);
+    border: 1px solid #66552c;
+    background: #3a2023;
+    color: var(--gold);
     width: 39px;
     height: 39px;
     border-radius: 12px;
@@ -871,11 +886,12 @@ textarea {
 
 .form-card h3 {
     font-size: 15px;
+    color: var(--gold);
     margin: 0 0 12px;
 }
 
 .required {
-    color: var(--red);
+    color: #ff9289;
 }
 
 .form-two {
@@ -903,7 +919,7 @@ textarea {
 .profile-hero {
     text-align: center;
     padding: 26px 15px;
-    background: white;
+    background: var(--paper);
     border: 1px solid var(--line);
     border-radius: 18px;
     margin-bottom: 15px;
@@ -914,7 +930,8 @@ textarea {
     height: 68px;
     border-radius: 23px;
     background: var(--green);
-    color: #fff;
+    color: var(--gold);
+    border: 1px solid var(--gold);
     display: grid;
     place-items: center;
     margin: 0 auto 12px;
@@ -925,6 +942,7 @@ textarea {
 .profile-hero h2 {
     font-family: 'Playfair Display', serif;
     font-size: 24px;
+    color: var(--gold);
     margin: 0;
 }
 
@@ -936,8 +954,9 @@ textarea {
 .profile-tag {
     font-size: 9px;
     letter-spacing: 1.4px;
-    color: var(--green2);
-    background: var(--mint);
+    color: var(--gold);
+    background: #3a2023;
+    border: 1px solid #66552c;
     border-radius: 20px;
     padding: 6px 10px;
     font-weight: 700;
@@ -948,7 +967,7 @@ textarea {
     justify-content: space-between;
     align-items: center;
     padding: 16px;
-    background: white;
+    background: var(--paper);
     border: 1px solid var(--line);
     border-radius: 14px;
     margin-top: 13px;
@@ -956,15 +975,17 @@ textarea {
 
 .settings-card strong {
     font-size: 12px;
+    color: var(--ink);
 }
 
 .settings-card p {
     font-size: 11px;
     margin: 4px 0 0;
+    color: var(--muted);
 }
 
 .settings-card > span {
-    color: var(--green);
+    color: var(--gold);
     font-size: 20px;
 }
 
@@ -974,7 +995,7 @@ textarea {
 
 .footnote {
     text-align: center;
-    color: #9ba39c;
+    color: #9b8f83;
     font-size: 10px;
     line-height: 1.7;
     margin: 25px 0 0;
@@ -997,7 +1018,7 @@ textarea {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: rgba(255, 255, 255, 0.96);
+    background: rgba(26, 26, 26, 0.97);
     border-top: 1px solid var(--line);
     backdrop-filter: blur(12px);
 }
@@ -1009,7 +1030,7 @@ textarea {
 .nav-item {
     border: 0;
     background: transparent;
-    color: #8b958c;
+    color: #9d948b;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -1029,18 +1050,18 @@ textarea {
 }
 
 .nav-item.active {
-    color: var(--green);
+    color: var(--gold);
 }
 
 .nav-add {
     width: 48px;
     height: 48px;
-    border: 0;
+    border: 1px solid var(--gold);
     border-radius: 16px;
     background: var(--green);
-    color: white;
+    color: var(--gold);
     font-size: 29px;
-    box-shadow: 0 5px 14px rgba(32, 60, 50, 0.22);
+    box-shadow: 0 5px 14px rgba(0, 0, 0, 0.35);
     margin-top: -22px;
 }
 
@@ -1057,7 +1078,8 @@ textarea {
     transform: translate(-50%, 15px);
     opacity: 0;
     pointer-events: none;
-    background: #233f33;
+    background: #5b0000;
+    border: 1px solid var(--gold);
     color: white;
     border-radius: 12px;
     padding: 12px 17px;
@@ -1082,7 +1104,7 @@ textarea {
     position: fixed;
     z-index: 40;
     inset: 0;
-    background: rgba(20, 32, 25, 0.45);
+    background: rgba(0, 0, 0, 0.75);
     display: grid;
     place-items: center;
     padding: 20px;
@@ -1093,13 +1115,14 @@ textarea {
 }
 
 .modal-card {
-    background: white;
+    background: var(--paper);
+    border: 1px solid var(--line);
     border-radius: 20px;
     padding: 25px;
     max-width: 360px;
     width: 100%;
     text-align: center;
-    box-shadow: 0 20px 70px rgba(0, 0, 0, 0.18);
+    box-shadow: 0 20px 70px rgba(0, 0, 0, 0.5);
 }
 
 .modal-icon {
@@ -1108,8 +1131,8 @@ textarea {
     border-radius: 14px;
     display: grid;
     place-items: center;
-    background: #fae7e4;
-    color: var(--red);
+    background: #552523;
+    color: #ffb4ab;
     font-weight: 700;
     font-size: 20px;
     margin: 0 auto 13px;
@@ -1121,6 +1144,7 @@ textarea {
 
 .modal-card > p {
     font-size: 12px;
+    color: var(--muted);
     margin: 8px 0 20px;
 }
 

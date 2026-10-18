@@ -41,9 +41,9 @@
   const starterData = () => ({
     users: [
       {
-        name: "Demo Student",
-        email: "demo@studyflow.com",
-        password: "study123"
+        name: "User UwU",
+        email: "uwu@studyflow.com",
+        password: "studyflow123"
       }
     ],
 

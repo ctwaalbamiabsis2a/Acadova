@@ -1,0 +1,623 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#203c32">
+
+    <title>StudyFlow | Student Task Planner</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="app-shell">
+
+        <!-- ================= HEADER ================= -->
+        <header class="topbar">
+            <a class="brand" href="#" id="brandHome" aria-label="StudyFlow home">
+                <span class="brand-mark">S</span>
+                <span>StudyFlow</span>
+            </a>
+
+            <button
+                class="avatar-button"
+                id="headerAvatar"
+                aria-label="Open profile"
+            >
+                S
+            </button>
+        </header>
+
+
+        <!-- ================= MAIN CONTENT ================= -->
+        <main>
+
+            <!-- ========== LOGIN SCREEN ========== -->
+            <section class="screen auth-screen active" id="loginScreen">
+
+                <div class="auth-art">
+                    <div class="art-circle circle-one"></div>
+                    <div class="art-circle circle-two"></div>
+
+                    <span class="art-icon">✦</span>
+
+                    <p class="eyebrow">YOUR SPACE TO SUCCEED</p>
+
+                    <h1>
+                        Make room for<br>
+                        <em>what matters.</em>
+                    </h1>
+
+                    <p class="auth-intro">
+                        Keep your schoolwork organized, one task at a time.
+                    </p>
+                </div>
+
+                <form class="auth-card" id="loginForm">
+                    <h2>Welcome back</h2>
+
+                    <p class="muted">
+                        Log in to continue your study journey.
+                    </p>
+
+                    <label for="loginEmail">Email address</label>
+                    <input
+                        id="loginEmail"
+                        name="email"
+                        type="email"
+                        placeholder="you@example.com"
+                        required
+                        autocomplete="email"
+                    >
+
+                    <label for="loginPassword">Password</label>
+                    <input
+                        id="loginPassword"
+                        name="password"
+                        type="password"
+                        placeholder="Enter your password"
+                        required
+                        minlength="4"
+                        autocomplete="current-password"
+                    >
+
+                    <p class="form-error" id="loginError" role="alert"></p>
+
+                    <button class="button primary full" type="submit">
+                        Log in <span>→</span>
+                    </button>
+
+                    <p class="auth-switch">
+                        New to StudyFlow?
+                        <button
+                            type="button"
+                            class="text-button"
+                            data-go="registerScreen"
+                        >
+                            Create account
+                        </button>
+                    </p>
+
+                    <div class="demo-note">
+                        <strong>Demo tip:</strong>
+                        Create an account or use
+                        <code>demo@studyflow.com</code> /
+                        <code>study123</code>.
+                    </div>
+                </form>
+            </section>
+
+
+            <!-- ========== REGISTER SCREEN ========== -->
+            <section class="screen auth-screen" id="registerScreen">
+
+                <div class="auth-art compact-art">
+                    <p class="eyebrow">START FRESH</p>
+
+                    <h1>
+                        A little progress<br>
+                        <em>every day.</em>
+                    </h1>
+
+                    <p class="auth-intro">
+                        Build better habits and make deadlines feel lighter.
+                    </p>
+                </div>
+
+                <form class="auth-card" id="registerForm">
+                    <h2>Create your account</h2>
+
+                    <p class="muted">
+                        Your personal school planner starts here.
+                    </p>
+
+                    <label for="registerName">Full name</label>
+                    <input
+                        id="registerName"
+                        name="name"
+                        type="text"
+                        placeholder="Your name"
+                        required
+                        minlength="2"
+                        autocomplete="name"
+                    >
+
+                    <label for="registerEmail">Email address</label>
+                    <input
+                        id="registerEmail"
+                        name="email"
+                        type="email"
+                        placeholder="you@example.com"
+                        required
+                        autocomplete="email"
+                    >
+
+                    <label for="registerPassword">Password</label>
+                    <input
+                        id="registerPassword"
+                        name="password"
+                        type="password"
+                        placeholder="At least 4 characters"
+                        required
+                        minlength="4"
+                        autocomplete="new-password"
+                    >
+
+                    <p class="form-error" id="registerError" role="alert"></p>
+
+                    <button class="button primary full" type="submit">
+                        Create account <span>→</span>
+                    </button>
+
+                    <p class="auth-switch">
+                        Already have an account?
+                        <button
+                            type="button"
+                            class="text-button"
+                            data-go="loginScreen"
+                        >
+                            Log in
+                        </button>
+                    </p>
+                </form>
+            </section>
+
+
+            <!-- ========== DASHBOARD SCREEN ========== -->
+            <section class="screen app-screen" id="dashboardScreen">
+
+                <div class="page-heading">
+                    <div>
+                        <p class="eyebrow" id="todayLabel">
+                            YOUR STUDY SPACE
+                        </p>
+
+                        <h1 id="greeting">Good day!</h1>
+
+                        <p class="muted">
+                            A little progress adds up.
+                        </p>
+                    </div>
+
+                    <button class="button primary add-top" id="quickAddBtn">
+                        ＋ <span>New task</span>
+                    </button>
+                </div>
+
+                <!-- Welcome card -->
+                <div class="welcome-card">
+                    <div>
+                        <p class="eyebrow light">KEEP GOING</p>
+                        <h2>You’ve got this.</h2>
+
+                        <p id="welcomeSummary">
+                            Every task completed is progress.
+                        </p>
+                    </div>
+
+                    <div class="welcome-symbol">✦</div>
+                </div>
+
+                <!-- Task overview -->
+                <div class="section-heading">
+                    <h2>Your overview</h2>
+
+                    <button class="text-button" data-screen="tasksScreen">
+                        View tasks →
+                    </button>
+                </div>
+
+                <div class="stats-grid">
+
+                    <article class="stat-card">
+                        <span class="stat-icon mint">☷</span>
+                        <span class="stat-label">Total tasks</span>
+                        <strong id="totalCount">0</strong>
+                        <span class="stat-caption">All assignments</span>
+                    </article>
+
+                    <article class="stat-card">
+                        <span class="stat-icon peach">◷</span>
+                        <span class="stat-label">Pending</span>
+                        <strong id="pendingCount">0</strong>
+                        <span class="stat-caption">Still to do</span>
+                    </article>
+
+                    <article class="stat-card">
+                        <span class="stat-icon lilac">✓</span>
+                        <span class="stat-label">Completed</span>
+                        <strong id="completedCount">0</strong>
+                        <span class="stat-caption">Well done!</span>
+                    </article>
+
+                </div>
+
+                <!-- Progress bar -->
+                <article class="progress-card">
+                    <div class="progress-head">
+                        <div>
+                            <h3>Your progress</h3>
+                            <p class="muted">Small steps count.</p>
+                        </div>
+
+                        <strong id="progressPercent">0%</strong>
+                    </div>
+
+                    <div class="progress-track">
+                        <div id="progressBar" class="progress-bar"></div>
+                    </div>
+                </article>
+
+                <!-- Upcoming tasks -->
+                <div class="section-heading">
+                    <h2>Coming up</h2>
+
+                    <button class="text-button" data-screen="tasksScreen">
+                        See all
+                    </button>
+                </div>
+
+                <div id="upcomingList" class="task-list"></div>
+            </section>
+
+
+            <!-- ========== ALL TASKS SCREEN ========== -->
+            <section class="screen app-screen" id="tasksScreen">
+
+                <div class="page-heading">
+                    <div>
+                        <p class="eyebrow">STAY ON TRACK</p>
+                        <h1>My tasks</h1>
+
+                        <p class="muted">
+                            All your schoolwork, in one place.
+                        </p>
+                    </div>
+
+                    <button class="button primary add-top" id="tasksAddBtn">
+                        ＋ <span>Add</span>
+                    </button>
+                </div>
+
+                <!-- Search -->
+                <div class="search-wrap">
+                    <span>⌕</span>
+
+                    <input
+                        type="search"
+                        id="searchInput"
+                        placeholder="Search tasks..."
+                        aria-label="Search tasks"
+                    >
+
+                    <button
+                        id="clearSearch"
+                        aria-label="Clear search"
+                        class="clear-search"
+                    >
+                        ×
+                    </button>
+                </div>
+
+                <!-- Status filters -->
+                <div class="filter-row" id="statusFilters">
+                    <button class="filter-chip selected" data-status="all">
+                        All tasks
+                    </button>
+
+                    <button class="filter-chip" data-status="pending">
+                        Pending
+                    </button>
+
+                    <button class="filter-chip" data-status="completed">
+                        Completed
+                    </button>
+                </div>
+
+                <!-- Subject filter -->
+                <label class="filter-label" for="subjectFilter">
+                    SUBJECT
+                </label>
+
+                <select id="subjectFilter" class="select-control">
+                    <option value="all">All subjects</option>
+                    <option>ICT</option>
+                    <option>English</option>
+                    <option>Science</option>
+                    <option>Math</option>
+                    <option>Research</option>
+                    <option>Other</option>
+                </select>
+
+                <!-- Sorting -->
+                <div class="list-summary">
+                    <span id="taskResultCount">0 tasks</span>
+
+                    <select id="sortSelect" aria-label="Sort tasks">
+                        <option value="date">Due date</option>
+                        <option value="priority">Priority</option>
+                        <option value="newest">Recently added</option>
+                    </select>
+                </div>
+
+                <!-- Tasks are displayed by JavaScript -->
+                <div id="allTasksList" class="task-list"></div>
+            </section>
+
+
+            <!-- ========== ADD / EDIT TASK SCREEN ========== -->
+            <section class="screen app-screen" id="taskFormScreen">
+
+                <div class="page-heading">
+                    <div>
+                        <p class="eyebrow">PLAN IT OUT</p>
+                        <h1 id="taskFormTitle">Add a task</h1>
+
+                        <p class="muted">
+                            Give your next step a clear plan.
+                        </p>
+                    </div>
+
+                    <button
+                        class="icon-button"
+                        id="cancelTaskBtn"
+                        aria-label="Close form"
+                    >
+                        ×
+                    </button>
+                </div>
+
+                <form id="taskForm" class="form-card">
+
+                    <input type="hidden" id="taskId">
+
+                    <label for="taskTitle">
+                        Task title <span class="required">*</span>
+                    </label>
+
+                    <input
+                        id="taskTitle"
+                        type="text"
+                        placeholder="e.g. Finish research introduction"
+                        required
+                        maxlength="90"
+                    >
+
+                    <label for="taskSubject">
+                        Subject <span class="required">*</span>
+                    </label>
+
+                    <select id="taskSubject" required>
+                        <option value="">Choose a subject</option>
+                        <option>ICT</option>
+                        <option>English</option>
+                        <option>Science</option>
+                        <option>Math</option>
+                        <option>Research</option>
+                        <option>Other</option>
+                    </select>
+
+                    <div class="form-two">
+                        <div>
+                            <label for="taskDue">
+                                Due date <span class="required">*</span>
+                            </label>
+
+                            <input id="taskDue" type="date" required>
+                        </div>
+
+                        <div>
+                            <label for="taskPriority">Priority</label>
+
+                            <select id="taskPriority">
+                                <option>Medium</option>
+                                <option>High</option>
+                                <option>Low</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <label for="taskDescription">
+                        Notes (optional)
+                    </label>
+
+                    <textarea
+                        id="taskDescription"
+                        rows="4"
+                        placeholder="Add details or reminders..."
+                    ></textarea>
+
+                    <div class="form-actions">
+                        <button
+                            type="button"
+                            class="button secondary"
+                            id="discardTaskBtn"
+                        >
+                            Cancel
+                        </button>
+
+                        <button
+                            type="submit"
+                            class="button primary"
+                            id="saveTaskBtn"
+                        >
+                            Save task <span>→</span>
+                        </button>
+                    </div>
+                </form>
+            </section>
+
+
+            <!-- ========== PROFILE SCREEN ========== -->
+            <section class="screen app-screen" id="profileScreen">
+
+                <div class="page-heading">
+                    <div>
+                        <p class="eyebrow">YOUR ACCOUNT</p>
+                        <h1>Profile</h1>
+
+                        <p class="muted">
+                            Make StudyFlow feel like yours.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Profile information -->
+                <div class="profile-hero">
+                    <div class="profile-avatar" id="profileAvatar">S</div>
+
+                    <h2 id="profileName">Student</h2>
+
+                    <p class="muted" id="profileEmail">
+                        student@example.com
+                    </p>
+
+                    <span class="profile-tag">STUDYFLOW MEMBER</span>
+                </div>
+
+                <!-- Edit profile -->
+                <form id="profileForm" class="form-card">
+                    <h3>Personal details</h3>
+
+                    <label for="profileNameInput">Display name</label>
+
+                    <input
+                        id="profileNameInput"
+                        type="text"
+                        required
+                        minlength="2"
+                    >
+
+                    <label for="profileEmailInput">Email address</label>
+
+                    <input
+                        id="profileEmailInput"
+                        type="email"
+                        disabled
+                    >
+
+                    <button class="button primary full" type="submit">
+                        Save profile
+                    </button>
+                </form>
+
+                <!-- Settings -->
+                <div class="settings-card">
+                    <div>
+                        <strong>Keep your focus</strong>
+
+                        <p class="muted">
+                            Your tasks are saved in this browser.
+                        </p>
+                    </div>
+
+                    <span>✓</span>
+                </div>
+
+                <button
+                    class="button danger-outline full logout-btn"
+                    id="logoutBtn"
+                >
+                    ↪ Log out
+                </button>
+
+                <p class="footnote">
+                    StudyFlow · Student Task Planner<br>
+                    Classroom prototype only
+                </p>
+            </section>
+
+        </main>
+
+
+        <!-- ================= BOTTOM NAVIGATION ================= -->
+        <nav class="bottom-nav hidden" id="bottomNav" aria-label="Main navigation">
+
+            <button class="nav-item active" data-screen="dashboardScreen">
+                <span>⌂</span>
+                <small>Home</small>
+            </button>
+
+            <button class="nav-item" data-screen="tasksScreen">
+                <span>☷</span>
+                <small>My tasks</small>
+            </button>
+
+            <button class="nav-add" id="navAddBtn" aria-label="Add a task">
+                ＋
+            </button>
+
+            <button class="nav-item" data-screen="profileScreen">
+                <span>♙</span>
+                <small>Profile</small>
+            </button>
+
+        </nav>
+
+    </div>
+
+
+    <!-- ================= NOTIFICATIONS ================= -->
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+
+    <!-- ================= DELETE CONFIRMATION MODAL ================= -->
+    <div
+        class="modal-backdrop hidden"
+        id="deleteModal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="deleteModalTitle"
+    >
+        <div class="modal-card">
+
+            <div class="modal-icon">!</div>
+
+            <h2 id="deleteModalTitle">Delete this task?</h2>
+
+            <p class="muted">
+                This task will be removed from your list.
+                This action cannot be undone.
+            </p>
+
+            <div class="modal-actions">
+                <button class="button secondary" id="keepTaskBtn">
+                    Keep task
+                </button>
+
+                <button class="button danger" id="confirmDeleteBtn">
+                    Delete
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html>
